@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sự kiện</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #2c3e50;
+            color: #fff;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        td[colspan="5"] {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Danh sách sự kiện</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên sự kiện</th>
+                <th>Ngày tổ chức</th>
+                <th>Địa điểm</th>
+                <th>Mô tả</th>
+                <th>Sức chứa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (events.length===0) { %>
+                <tr>
+                    <td colspan="5">Chưa có sự kiện nào</td>
+                </tr>
+                <% } else { %>
+                    <% events.forEach(e=> { %>
+                        <tr>
+                            <td>
+                                <%= e.name %>
+                            </td>
+                            <td>
+                                <%= new Date(e.date).toLocaleString() %>
+                            </td>
+                            <td>
+                                <%= e.location %>
+                            </td>
+                            <td>
+                                <%= e.description %>
+                            </td>
+                            <td>
+                                <%= e.capacity %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% } %>
+        </tbody>
+    </table>
+
+    <a href="/auth/logout">Đăng xuất</a>
+
+</body>
+
+</html>

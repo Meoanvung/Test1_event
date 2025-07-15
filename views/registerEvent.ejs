@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sự kiện</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        p[style*="green"] {
+            color: green;
+            font-weight: bold;
+        }
+
+        p[style*="orange"] {
+            color: orange;
+            font-weight: bold;
+        }
+
+        p[style*="red"] {
+            color: red;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        strong {
+            font-size: 18px;
+            color: #333;
+        }
+
+        form {
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        form[action*="_method=DELETE"] button {
+            background-color: #e74c3c;
+        }
+
+        form[action*="_method=DELETE"] button:hover {
+            background-color: #c0392b;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Danh sách sự kiện</h2>
+
+    <% if (success) { %>
+        <p style="color: green;">Đăng ký thành công!</p>
+        <% } %>
+
+            <% if (unregistered) { %>
+                <p style="color: orange;">Hủy đăng ký thành công!</p>
+                <% } %>
+
+                    <% if (error==='already_registered' ) { %>
+                        <p style="color: red;">Bạn đã đăng ký sự kiện này rồi.</p>
+                        <% } %>
+
+                            <ul>
+                                <% events.forEach(event=> { %>
+                                    <li>
+                                        <strong>
+                                            <%= event.name %>
+                                        </strong> – <%= new Date(event.date).toLocaleDateString() %> – Địa điểm: <%=
+                                                event.location %><br />
+                                                <%= event.description %><br />
+                                                    Số lượng đăng ký: <%= event.registeredCount %> / <%= event.capacity
+                                                            %><br />
+
+                                                            <% if (event.registeredId) { %>
+                                                                <!-- Nếu đã đăng ký: Hiện nút Hủy -->
+                                                                <form method="POST"
+                                                                    action="/registrations/<%= event.registeredId %>?_method=DELETE">
+                                                                    <button type="submit">Hủy đăng ký</button>
+                                                                </form>
+                                                                <% } else { %>
+                                                                    <!-- Nếu chưa đăng ký: Hiện nút Đăng ký -->
+                                                                    <form method="POST" action="/registrations">
+                                                                        <input type="hidden" name="studentId"
+                                                                            value="<%= studentId %>" />
+                                                                        <input type="hidden" name="eventId"
+                                                                            value="<%= event._id %>" />
+                                                                        <button type="submit">Đăng ký</button>
+                                                                    </form>
+                                                                    <% } %>
+                                    </li>
+                                    <% }); %>
+                            </ul>
+                            <a href="/auth/logout">Đăng xuất</a>
+
+</body>
+
+</html>
